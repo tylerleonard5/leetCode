@@ -1,9 +1,8 @@
 #imports of sys, numpy, and literal_eval from ast
-
-from pickletools import int4
 import sys
 import numpy as np
 from ast import literal_eval
+from itertools import product
 # import pandas as pd
 # from sklearn import ...
 
@@ -24,51 +23,53 @@ else:
     arr2evalSet = set(literal_eval(lines[1]))
 
     #arr1
-    arr1 = np.array(literal_eval(lines[0]))
+    arr1 = literal_eval(lines[0])
     
     #if set length does not equal then not set
-    if len(np.array(list(arr1evalSet))) != len(arr1):
+    if len((list(arr1evalSet))) != len(arr1):
         isValid = False
 
-    #if dtype of array is not int32 then not valid
-    if arr1.dtype != np.int32 and arr1.dtype != np.int64:
-        isValid = False
+    #if element in array is letter then not valid
+    for i in arr1:
+        if not isinstance(i, int):
+            isValid = False
+            break
        
    
     #arr2
-    arr2 = np.array(literal_eval(lines[1]))
+    arr2 = literal_eval(lines[1])
     
     #if set length does not equal then not set
-    if len(np.array(list(arr2evalSet))) != len(arr2):
+    if len((list(arr2evalSet))) != len(arr2):
         isValid = False
 
-    #if dtype of array is not int32 then not valid
-    if arr2.dtype != np.int32 and arr2.dtype != np.int64:
-        isValid = False
+    #if element in array is letter then not valid
+    for i in arr2:
+        if not isinstance(i, int):
+            isValid = False
+            break
  
 
     #tup
-    tup = np.array(literal_eval(lines[2]))
+    tup = literal_eval(lines[2])
 
-    #must be int32
-    if tup.dtype != np.int32 and tup.dtype != np.int64:
-        isValid = False
+    #must be int
+    for i in tup:
+        if not isinstance(i, int):
+            isValid = False
+            break
 
     #can be set but length must be 2
     if len(tup) != 2:
         isValid = False
 
-        
+    #If the input is not valid print -1    
     if not isValid:
         print(-1)
-        
+
+    #else valid.  i * len(B) represents start point in cartesian set. add j to that to
+    #get proper index
     else:
-        cart = np.transpose([np.repeat(arr1, len(arr2)), np.tile(arr2, len(arr1))])
-
-        tupVal = tuple([arr1[tup[0]], arr2[tup[1]]])
-
-        ans = np.where((cart==tupVal).all(axis=1))[0]
-
-        print(int(ans))
+        print((tup[0] * len(arr2)) + tup[1])
 
         
