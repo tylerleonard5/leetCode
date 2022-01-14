@@ -63,5 +63,12 @@ else:
         print(-1)
         
     else:
-        print('Valid')
+        cart = np.transpose([np.repeat(arr1, len(arr2)), np.tile(arr2, len(arr1))])
+
+        tupVal = tuple([arr1[tup[0]], arr2[tup[1]]])
+
+        ans = np.where((cart==tupVal).all(axis=1))[0]
+
+        print(int(ans))
+
         
