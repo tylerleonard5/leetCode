@@ -1,6 +1,7 @@
 import sys
+import numpy as np
 from ast import literal_eval
-from itertools import product
+
 
 
 lines = sys.stdin.read().splitlines()
